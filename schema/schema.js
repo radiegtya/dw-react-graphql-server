@@ -14,3 +14,16 @@ const ProductType = new GraphQLObjectType({
     price: {type: GraphQLInt}
   }
 });
+
+const RootQuery = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: {
+    product: {
+      type: ProductType,
+      args: {id: {type: GraphQLString} },
+      resolve(parentValue, args){
+        
+      }
+    }
+  }
+})
