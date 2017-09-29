@@ -2,8 +2,15 @@ const graphql = require('graphql');
 const {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLSchema
 } = graphql;
+const _ = require('lodash');
+
+const products = [
+  {id: "1", name: "dompet", image: "", price: 20000},
+  {id: "2", name: "tas", image: "", price: 100000},
+];
 
 const ProductType = new GraphQLObjectType({
   name: 'Product',
@@ -22,8 +29,12 @@ const RootQuery = new GraphQLObjectType({
       type: ProductType,
       args: {id: {type: GraphQLString} },
       resolve(parentValue, args){
-        
+        return _.find(products, {id: args.id});
       }
     }
   }
+})
+
+module.exports = new GraphQLSchema({
+  query: RootQuery
 })
