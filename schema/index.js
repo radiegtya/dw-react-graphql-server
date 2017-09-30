@@ -5,17 +5,12 @@ const {
   GraphQLInt,
   GraphQLSchema
 } = graphql;
-const _ = require('lodash');
-
-const products = [
-  {id: 1, name: "dompet", image: "", price: 20000},
-  {id: 2, name: "tas", image: "", price: 100000},
-];
+const axios = require('axios');
 
 const ProductType = new GraphQLObjectType({
   name: 'Product',
   fields: {
-    id: {type: GraphQLInt},
+    id: {type: GraphQLString},
     name: {type: GraphQLString},
     image: {type: GraphQLString},
     price: {type: GraphQLInt}
@@ -27,9 +22,10 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     product: {
       type: ProductType,
-      args: {id: {type: GraphQLInt} },
+      args: {id: {type: GraphQLString} },
       resolve(parentValue, args){
-        return _.find(products, {id: args.id});
+        return axios.get(`http://localhost:3000/products/${args.id}`)
+          .then(res => res.data);
       }
     }
   }
