@@ -89,6 +89,14 @@ const mutation = new GraphQLObjectType({
         return axios.post(`http://localhost:3000/categories`, args)
           .then(res => res.data)
       }
+    },
+    deleteCategory: {
+      type: CategoryType,
+      args: {id: {type: GraphQLString}},
+      resolve(parentValue, args){
+        return axios.delete(`http://localhost:3000/categories/${args.id}`)
+          .then(res => res.data);
+      }
     }
   }
 });
