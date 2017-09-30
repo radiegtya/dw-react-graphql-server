@@ -97,6 +97,17 @@ const mutation = new GraphQLObjectType({
         return axios.delete(`http://localhost:3000/categories/${args.id}`)
           .then(res => res.data);
       }
+    },
+    editCategory: {
+      type: CategoryType,
+      args: {
+        id: {type: GraphQLString},
+        name: {type: new GraphQLNonNull(GraphQLString)}
+      },
+      resolve(parentValue, args){
+        return axios.patch(`http://localhost:3000/categories/${args.id}`, args)
+          .then(res => res.data);
+      }
     }
   }
 });
