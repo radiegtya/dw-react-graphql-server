@@ -8,14 +8,14 @@ const {
 const _ = require('lodash');
 
 const products = [
-  {id: "1", name: "dompet", image: "", price: 20000},
-  {id: "2", name: "tas", image: "", price: 100000},
+  {id: 1, name: "dompet", image: "", price: 20000},
+  {id: 2, name: "tas", image: "", price: 100000},
 ];
 
 const ProductType = new GraphQLObjectType({
   name: 'Product',
   fields: {
-    id: {type: GraphQLString},
+    id: {type: GraphQLInt},
     name: {type: GraphQLString},
     image: {type: GraphQLString},
     price: {type: GraphQLInt}
@@ -27,7 +27,7 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     product: {
       type: ProductType,
-      args: {id: {type: GraphQLString} },
+      args: {id: {type: GraphQLInt} },
       resolve(parentValue, args){
         return _.find(products, {id: args.id});
       }
