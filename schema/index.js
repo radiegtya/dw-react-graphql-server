@@ -8,6 +8,14 @@ const {
 } = graphql;
 const axios = require('axios');
 
+const CategoryType = new GraphQLObjectType({
+  name: 'Category',
+  fields: {
+    id: {type: GraphQLString},
+    name: {type: GraphQLString}
+  }
+})
+
 const ProductType = new GraphQLObjectType({
   name: 'Product',
   fields: {
@@ -33,6 +41,21 @@ const RootQuery = new GraphQLObjectType({
       args: {id: {type: GraphQLString} },
       resolve(parentValue, args){
         return axios.get(`http://localhost:3000/products/${args.id}`)
+          .then(res => res.data);
+      }
+    },
+    categories: {
+      type: new GraphQLList(CategoryType),
+      resolve(parentValue, args){
+        return axios.get(`http://localhost:3000/categories`)
+          .then(res => res.data);
+      }
+    },
+    category: {
+      type: CategoryType,
+      args: {id: {type: GraphQLString}},
+      resolve(parentValue, args){
+        return axios.get(`http://localhost:3000/categories/${args.id}`)
           .then(res => res.data);
       }
     }
